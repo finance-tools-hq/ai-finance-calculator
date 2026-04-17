@@ -1,29 +1,41 @@
-let myChart = null; // 차트 객체 초기화
+let myChart = null;
+
+// [추가] 실시간 콤마 포맷팅 함수
+function formatNumber(node) {
+    let value = node.value.replace(/[^0-9]/g, "");
+    node.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// [추가] 계산을 위해 콤마를 제거하고 숫자로 변환하는 함수
+function getRawNumber(id) {
+    const val = document.getElementById(id).value;
+    return parseFloat(val.replace(/,/g, "")) || 0;
+}
 
 // 1. 대출 계산기
 function calculateLoan() {
-    const amount = parseFloat(document.getElementById('loanAmount').value);
+    const amount = getRawNumber('loanAmount');
     const rate = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
     const term = parseFloat(document.getElementById('loanTerm').value) * 12;
 
-    if (!isNaN(amount) && !isNaN(rate) && !isNaN(term) && term > 0) {
+    if (amount > 0 && rate > 0 && term > 0) {
         const x = Math.pow(1 + rate, term);
         const monthly = (amount * x * rate) / (x - 1);
         const formatted = Math.round(monthly).toLocaleString('ko-KR');
         document.getElementById('loanResult').innerHTML = `예상 월 상환액: <span class="highlight">${formatted} 원</span>`;
     } else {
-        alert("대출 정보를 정확히 입력해주세요.");
+        alert("값을 정확히 입력해주세요.");
     }
 }
 
-// 2. 복리 계산기 + 차트 업데이트
+// 2. 복리 계산기 + 차트
 function calculateCompound() {
-    const p = parseFloat(document.getElementById('principal').value);
-    const pmt = parseFloat(document.getElementById('monthlyDeposit').value) || 0;
+    const p = getRawNumber('principal');
+    const pmt = getRawNumber('monthlyDeposit');
     const r = parseFloat(document.getElementById('growthRate').value) / 100 / 12;
     const n = parseFloat(document.getElementById('years').value) * 12;
 
-    if (!isNaN(p) && !isNaN(r) && !isNaN(n) && n > 0) {
+    if (!isNaN(p) && !isNaN(r) && n > 0) {
         let labels = [];
         let data = [];
         let currentBalance = p;
@@ -39,7 +51,6 @@ function calculateCompound() {
         const formattedValue = Math.round(currentBalance).toLocaleString('ko-KR');
         document.getElementById('compoundResult').innerHTML = `최종 예상 자산: <span class="highlight">${formattedValue} 원</span>`;
 
-        // 차트 그리기
         const ctx = document.getElementById('growthChart').getContext('2d');
         if (myChart) myChart.destroy();
         myChart = new Chart(ctx, {
@@ -62,45 +73,23 @@ function calculateCompound() {
             }
         });
     } else {
-        alert("복리 계산 정보를 정확히 입력해주세요.");
+        alert("값을 정확히 입력해주세요.");
     }
 }
 
-// 3. 목표 자산 역산기 로직
+// 3. 목표 자산 역산기
 function calculateGoal() {
-    const target = parseFloat(document.getElementById('targetAmount').value);
+    const target = getRawNumber('targetAmount');
     const years = parseFloat(document.getElementById('goalYears').value);
-    // 복리 수익률은 복리 계산기 입력값(growthRate)을 공유하거나 기본 5%로 설정
     const annualRate = parseFloat(document.getElementById('growthRate').value) || 5;
     const r = annualRate / 100 / 12;
     const n = years * 12;
 
-    if (!isNaN(target) && !isNaN(years) && n > 0) {
-        // 월 필요한 저축액 계산 공식
-        let monthlyNeed;
-        if (r === 0) {
-            monthlyNeed = target / n;
-        } else {
-            monthlyNeed = target / (((Math.pow(1 + r, n)) - 1) / r);
-        }
-        
+    if (target > 0 && n > 0) {
+        let monthlyNeed = (r === 0) ? target / n : target / (((Math.pow(1 + r, n)) - 1) / r);
         const formatted = Math.round(monthlyNeed).toLocaleString('ko-KR');
-        document.getElementById('goalResult').innerHTML = `목표 달성을 위해 매달 <span class="highlight">${formatted} 원</span>을 저축해야 합니다. (수익률 ${annualRate}% 기준)`;
+        document.getElementById('goalResult').innerHTML = `매달 <span class="highlight">${formatted} 원</span>을 저축해야 합니다. (수익률 ${annualRate}% 기준)`;
     } else {
         alert("목표 금액과 기간을 입력해주세요.");
     }
-}
-
-// 입력창 실시간 천 단위 콤마 함수
-function formatNumber(node) {
-    // 콤마 제거 후 숫자만 추출
-    let value = node.value.replace(/[^0-9]/g, "");
-    // 천 단위 콤마 추가
-    node.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-// 계산 시 콤마를 제거하고 숫자로 변환하는 도우미 함수
-function getRawNumber(id) {
-    const val = document.getElementById(id).value;
-    return parseFloat(val.replace(/,/g, "")) || 0;
 }
