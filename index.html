@@ -2,18 +2,38 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>AI 금융 예측기 | 고수익 자산 관리</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고성능 금융 계산기 | 대출 이자 및 복리 계산 서비스</title>
+    <meta name="description" content="Loan Calculator, Mortgage Calculator, Compound Interest를 한 번에. 정확한 금융 수치를 즉시 확인하세요.">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 </head>
 <body>
     <div class="container">
-        <h1> AI 미래 자산 예측기</h1>
-        <p>현재 자산과 저축 습관을 입력하면 AI가 1년 뒤를 예측합니다.</p>
-        <input type="number" id="assets" placeholder="현재 자산(만원)">
-        <input type="number" id="savings" placeholder="월 저축액(만원)">
-        <button onclick="runAI()">AI 분석 실행</button>
-        <div id="result"></div>
+        <h1> Professional Finance Calc</h1>
+        
+        <section class="calc-section">
+            <h2>Loan & Mortgage Calculator</h2>
+            <input type="number" id="loanAmount" placeholder="대출 원금 (달러/원)">
+            <input type="number" id="interestRate" placeholder="연 이자율 (%)">
+            <input type="number" id="loanTerm" placeholder="대출 기간 (년)">
+            <button onclick="calculateLoan()">Calculate Monthly Payment</button>
+            <div id="loanResult" class="result-text"></div>
+        </section>
+
+        <hr>
+
+        <section class="calc-section">
+            <h2>Compound Interest Calculator</h2>
+            <input type="number" id="principal" placeholder="초기 투자금">
+            <input type="number" id="monthlyDeposit" placeholder="월 적립액">
+            <input type="number" id="growthRate" placeholder="연 수익률 (%)">
+            <input type="number" id="years" placeholder="투자 기간 (년)">
+            <button onclick="calculateCompound()">Check Future Value</button>
+            <div id="compoundResult" class="result-text"></div>
+        </section>
+
+        <div class="ad-slot">금융 상품 비교 및 광고 배너 노출 예정 구역</div>
     </div>
     <script src="script.js"></script>
 </body>
