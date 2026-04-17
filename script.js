@@ -1,10 +1,13 @@
-// 1. 대출 계산기 (Loan Calculator) 로직: 원리금 균등 상환 방식
+/**
+ * 1. 대출 계산기 (Loan Calculator)
+ * 원리금 균등 상환 방식 공식 적용
+ */
 function calculateLoan() {
     const amount = parseFloat(document.getElementById('loanAmount').value);
     const rate = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
     const term = parseFloat(document.getElementById('loanTerm').value) * 12;
 
-    if (!isNaN(amount) && !isNaN(rate) && !isNaN(term)) {
+    if (!isNaN(amount) && !isNaN(rate) && !isNaN(term) && term > 0) {
         const x = Math.pow(1 + rate, term);
         const monthly = (amount * x * rate) / (x - 1);
         
@@ -18,24 +21,25 @@ function calculateLoan() {
     }
 }
 
-// 2. 복리 계산기 (Compound Interest) 로직: 월 복리 적용
+/**
+ * 2. 복리 계산기 (Compound Interest)
+ * 월 복리 및 월 적립액 합산 공식 적용
+ */
 function calculateCompound() {
     const p = parseFloat(document.getElementById('principal').value);
-    const pmt = parseFloat(document.getElementById('monthlyDeposit').value) || 0; // 월 적립액이 없을 경우 0 처리
+    const pmt = parseFloat(document.getElementById('monthlyDeposit').value) || 0;
     const r = parseFloat(document.getElementById('growthRate').value) / 100 / 12;
     const n = parseFloat(document.getElementById('years').value) * 12;
 
     if (!isNaN(p) && !isNaN(r) && !isNaN(n) && n > 0) {
-        // 복리 공식 적용 (초기 투자금의 복리 + 월 적립액의 복리 합산)
         let futureValue;
         if (r === 0) {
-            // 이자율이 0%인 경우 예외 처리
             futureValue = p + (pmt * n);
         } else {
+            // 초기 투자금 복리 + 매월 적립액 복리 합산 공식
             futureValue = p * Math.pow(1 + r, n) + pmt * ((Math.pow(1 + r, n) - 1) / r);
         }
 
-        // 정수 반올림 후 한국식 콤마 포맷팅 적용
         const formattedValue = Math.round(futureValue).toLocaleString('ko-KR');
         
         document.getElementById('compoundResult').innerHTML = 
@@ -43,17 +47,4 @@ function calculateCompound() {
     } else {
         alert("투자 원금, 수익률, 기간을 올바르게 입력해주세요.");
     }
-}
-
-.highlight {
-    color: #5d5dff; /* 강조하고 싶은 보라색 계열 */
-    font-size: 1.2rem;
-}
-
-.result-text {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #f8f9ff;
-    border-radius: 5px;
-    text-align: center;
 }
