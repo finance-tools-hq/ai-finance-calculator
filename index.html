@@ -7,23 +7,37 @@
     <meta name="google-site-verification" content="9sls7Zab3isXfFnJvhogxMnnsjv1REDurrHeGDnl_a4" />
     <meta name="description" content="정확한 Loan Calculator, Mortgage Calculator, Compound Interest 기능을 제공합니다. 대출 상환 방식 비교와 미래 자산 예측을 시작하세요.">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* 하이라이트 및 결과 텍스트 스타일 보강 */
+        .highlight { color: #5d5dff; font-weight: bold; }
+        .result-text { 
+            margin-top: 15px; 
+            padding: 15px; 
+            background-color: #f8f9ff; 
+            border-radius: 8px; 
+            min-height: 1.5em; 
+            word-break: break-all;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1> Professional Finance Calc</h1>
+        <header>
+            <h1>Professional Finance Calc</h1>
+        </header>
         
         <section class="calc-section">
             <h2>Loan & Mortgage Calculator (대출 계산기)</h2>
             <div class="input-group">
-                <label>Loan Amount (대출 원금)</label>
+                <label for="loanAmount">Loan Amount (대출 원금)</label>
                 <input type="number" id="loanAmount" placeholder="예: 100000000">
             </div>
             <div class="input-group">
-                <label>Interest Rate (연 이자율 %)</label>
-                <input type="number" id="interestRate" placeholder="예: 3.5">
+                <label for="interestRate">Interest Rate (연 이자율 %)</label>
+                <input type="number" id="interestRate" step="0.1" placeholder="예: 3.5">
             </div>
             <div class="input-group">
-                <label>Loan Term (기간/년)</label>
+                <label for="loanTerm">Loan Term (기간/년)</label>
                 <input type="number" id="loanTerm" placeholder="예: 30">
             </div>
             <button onclick="calculateLoan()">Calculate Monthly Payment</button>
@@ -35,19 +49,19 @@
         <section class="calc-section">
             <h2>Compound Interest Calculator (복리 계산기)</h2>
             <div class="input-group">
-                <label>Principal (초기 투자금)</label>
+                <label for="principal">Principal (초기 투자금)</label>
                 <input type="number" id="principal" placeholder="예: 10000000">
             </div>
             <div class="input-group">
-                <label>Monthly Deposit (월 적립액)</label>
+                <label for="monthlyDeposit">Monthly Deposit (월 적립액)</label>
                 <input type="number" id="monthlyDeposit" placeholder="예: 500000">
             </div>
             <div class="input-group">
-                <label>Annual Return (수익률 %)</label>
-                <input type="number" id="growthRate" placeholder="예: 7">
+                <label for="growthRate">Annual Return (수익률 %)</label>
+                <input type="number" id="growthRate" step="0.1" placeholder="예: 7">
             </div>
             <div class="input-group">
-                <label>Years (투자 기간/년)</label>
+                <label for="years">Years (투자 기간/년)</label>
                 <input type="number" id="years" placeholder="예: 10">
             </div>
             <button onclick="calculateCompound()">Check Future Value</button>
@@ -55,102 +69,91 @@
         </section>
 
         <section class="finance-guide" style="max-width: 800px; margin: 50px auto; padding: 20px; line-height: 1.8; color: #444;">
-    <h2 style="color: #2c2c54; border-bottom: 2px solid #5d5dff; padding-bottom: 10px;">복리의 마법과 재무 설계의 핵심</h2>
-    
-    <h3 style="margin-top: 30px; color: #333;">1. 왜 지금 당장 자산 관리를 시작해야 하는가?</h3>
-    <p>
-        재무 설계의 핵심은 '시간'입니다. 아인슈타인이 '세계 8대 불가사의'라고 칭송한 복리 효과는 투자 기간이 길어질수록 기하급수적으로 증폭됩니다. 
-        저희 AI 금융 계산기를 통해 확인한 수치는 단순한 예상이 아닌, 여러분의 미래 자산 가치를 결정짓는 중요한 지표입니다.
-    </p>
+            <h2 style="color: #2c2c54; border-bottom: 2px solid #5d5dff; padding-bottom: 10px;">복리의 마법과 재무 설계의 핵심</h2>
+            
+            <h3 style="margin-top: 30px; color: #333;">1. 왜 지금 당장 자산 관리를 시작해야 하는가?</h3>
+            <p>
+                재무 설계의 핵심은 '시간'입니다. 아인슈타인이 '세계 8대 불가사의'라고 칭송한 복리 효과는 투자 기간이 길어질수록 기하급수적으로 증폭됩니다. 
+                저희 금융 계산기를 통해 확인한 수치는 단순한 예상이 아닌, 미래 자산 가치를 결정짓는 중요한 지표입니다.
+            </p>
 
-    <h3 style="margin-top: 30px; color: #333;">2. 인플레이션을 고려한 실질 수익률 계산법</h3>
-    <p>
-        명목 수익률이 5%라 하더라도 물가 상승률이 3%라면 실질 수익률은 2%에 불과합니다. 
-        자산의 구매력을 유지하기 위해서는 항상 인플레이션을 상회하는 투자 전략을 세워야 하며, 
-        본 계산 도구는 이러한 변동성을 고려하여 자산 흐름을 시각화하는 데 도움을 줍니다.
-    </p>
+            <h3 style="margin-top: 30px; color: #333;">2. 인플레이션을 고려한 실질 수익률 계산법</h3>
+            <p>
+                명목 수익률이 5%라 하더라도 물가 상승률이 3%라면 실질 수익률은 2%에 불과합니다. 
+                자산의 구매력을 유지하기 위해서는 항상 인플레이션을 상회하는 투자 전략을 세워야 하며, 
+                본 도구는 이러한 변동성을 고려하여 자산 흐름을 시각화하는 데 도움을 줍니다.
+            </p>
 
-    <blockquote style="background: #f4f4f4; border-left: 5px solid #5d5dff; padding: 15px; margin: 25px 0;">
-        <strong>전문가 팁:</strong> 매월 적립하는 금액보다 더 중요한 것은 '수익의 재투자'입니다. 
-        발생한 이자를 소비하지 않고 원금에 합산할 때 복리의 진정한 효과가 나타납니다.
-    </blockquote>
-</section>
+            <blockquote style="background: #f4f4f4; border-left: 5px solid #5d5dff; padding: 15px; margin: 25px 0;">
+                <strong>전문가 팁:</strong> 매월 적립하는 금액보다 더 중요한 것은 '수익의 재투자'입니다. 
+                발생한 이자를 소비하지 않고 원금에 합산할 때 복리의 진정한 효과가 나타납니다.
+            </blockquote>
+        </section>
 
-        <article class="info-section">
-            <h3> 대출 상환 방식 가이드: 원리금 균등 vs 원금 균등</h3>
+        <article class="info-section" style="max-width: 800px; margin: 0 auto;">
+            <h3>대출 상환 방식 가이드: 원리금 균등 vs 원금 균등</h3>
             <p>대출을 계획할 때 상환 방식을 이해하는 것은 이자 비용을 절감하는 핵심입니다.</p>
             <ul>
-                <li><strong>원리금 균등 상환 (Level Payment):</strong> 매달 내는 '원금+이자' 합계가 동일합니다. 자금 계획 세우기 좋지만, 전체 이자 부담은 원금 균등보다 약간 높을 수 있습니다.</li>
-                <li><strong>원금 균등 상환 (Equal Principal Payment):</strong> 매달 내는 원금이 일정합니다. 처음에는 상환액이 크지만 시간이 갈수록 이자가 줄어들어 전체 이자 비용 면에서 가장 유리합니다.</li>
-                <li><strong>만기 일시 상환 (Bullet Repayment):</strong> 기간 중에는 이자만 내고 만기에 원금을 한꺼번에 갚습니다. 단기 자금 융통에 좋지만 이자 부담이 가장 큽니다.</li>
+                <li><strong>원리금 균등 상환 (Level Payment):</strong> 매달 내는 '원금+이자' 합계가 동일합니다. 자금 계획 수립에 유리합니다.</li>
+                <li><strong>원금 균등 상환 (Equal Principal Payment):</strong> 매달 내는 원금이 일정합니다. 전체 이자 부담이 가장 적습니다.</li>
+                <li><strong>만기 일시 상환 (Bullet Repayment):</strong> 만기에 원금을 전액 상환합니다. 단기 자금 융통에 적합합니다.</li>
             </ul>
-            <p>본 계산기는 가장 보편적인 <strong>원리금 균등 상환</strong> 방식을 기준으로 결과를 계산합니다.</p>
+
             <div class="comparison-table-wrapper" style="overflow-x: auto; margin-top: 30px;">
-    <h4 style="color: #2c2c54; margin-bottom: 15px; border-left: 4px solid #5d5dff; padding-left: 10px;">상환 방식별 핵심 비교</h4>
-    <table style="width: 100%; border-collapse: collapse; background: white; border: 1px solid #e0e0e0; font-size: 0.95rem;">
-        <thead>
-            <tr style="background-color: #f8f9ff; border-bottom: 2px solid #5d5dff;">
-                <th style="padding: 12px; border: 1px solid #e0e0e0; color: #333;">구분</th>
-                <th style="padding: 12px; border: 1px solid #e0e0e0; color: #5d5dff;">원리금 균등</th>
-                <th style="padding: 12px; border: 1px solid #e0e0e0; color: #333;">원금 균등</th>
-                <th style="padding: 12px; border: 1px solid #e0e0e0; color: #333;">만기 일시</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold; background: #fcfcfc;">월 상환액</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">매달 일정함</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">초기에 많고 점차 감소</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">이자만 내다가 마지막에 폭증</td>
-            </tr>
-            <tr>
-                <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold; background: #fcfcfc;">총 이자 부담</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">보통</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0; color: #ff4d4d; font-weight: bold;">가장 적음</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">가장 많음</td>
-            </tr>
-            <tr>
-                <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold; background: #fcfcfc;">자금 계획</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">매우 용이</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">초반 부담 큼</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">만기 시 자금 압박</td>
-            </tr>
-            <tr>
-                <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold; background: #fcfcfc;">추천 대상</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">직장인, 수입이 일정한 분</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">이자 절감이 최우선인 분</td>
-                <td style="padding: 12px; border: 1px solid #e0e0e0;">투자 목적, 단기 자금 활용</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                <h4 style="color: #2c2c54; margin-bottom: 15px; border-left: 4px solid #5d5dff; padding-left: 10px;">상환 방식별 핵심 비교</h4>
+                <table style="width: 100%; border-collapse: collapse; background: white; border: 1px solid #e0e0e0; font-size: 0.95rem;">
+                    <thead>
+                        <tr style="background-color: #f8f9ff; border-bottom: 2px solid #5d5dff;">
+                            <th style="padding: 12px; border: 1px solid #e0e0e0;">구분</th>
+                            <th style="padding: 12px; border: 1px solid #e0e0e0; color: #5d5dff;">원리금 균등</th>
+                            <th style="padding: 12px; border: 1px solid #e0e0e0;">원금 균등</th>
+                            <th style="padding: 12px; border: 1px solid #e0e0e0;">만기 일시</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold;">월 상환액</td>
+                            <td style="padding: 12px; border: 1px solid #e0e0e0;">매달 일정</td>
+                            <td style="padding: 12px; border: 1px solid #e0e0e0;">점차 감소</td>
+                            <td style="padding: 12px; border: 1px solid #e0e0e0;">마지막에 원금집중</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold;">총 이자</td>
+                            <td style="padding: 12px; border: 1px solid #e0e0e0;">보통</td>
+                            <td style="padding: 12px; border: 1px solid #e0e0e0; color: #ff4d4d; font-weight: bold;">최소</td>
+                            <td style="padding: 12px; border: 1px solid #e0e0e0;">최대</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </article>
 
         <section class="faq-section" style="max-width: 800px; margin: 40px auto; padding: 20px; background: #fafafa; border-radius: 15px;">
-    <h2 style="text-align: center; color: #2c2c54; margin-bottom: 30px;">자주 묻는 재무 질문 (FAQ)</h2>
-    
-    <div style="margin-bottom: 20px;">
-        <h4 style="color: #5d5dff;">Q. 본 계산기는 얼마나 정확한가요?</h4>
-        <p>A. 본 계산기는 표준 재무 공식($FV = PV \times (1 + r)^n$)을 기반으로 작동합니다. 다만, 실제 투자의 경우 세금, 거래 수수료 및 시장 변동성에 따라 결과가 달라질 수 있습니다.</p>
-    </div>
-
-    <div style="margin-bottom: 20px;">
-        <h4 style="color: #5d5dff;">Q. 최적의 적립 기간은 어느 정도인가요?</h4>
-        <p>A. 복리 효과를 극대화하기 위해서는 최소 10년 이상의 장기 적립을 권장합니다. 72의 법칙에 따르면, 7% 수익률일 때 자산이 두 배가 되는 데 약 10년이 소요됩니다.</p>
-    </div>
-</section>
+            <h2 style="text-align: center; color: #2c2c54; margin-bottom: 30px;">자주 묻는 재무 질문 (FAQ)</h2>
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #5d5dff;">Q. 본 계산기는 얼마나 정확한가요?</h4>
+                <p>A. 표준 재무 공식($FV = PV \times (1 + r)^n$)을 기반으로 하지만, 실제 금융 상품별 세금이나 수수료에 따라 오차가 발생할 수 있습니다.</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #5d5dff;">Q. 최적의 적립 기간은 어느 정도인가요?</h4>
+                <p>A. 복리 효과는 기간에 비례합니다. 72의 법칙에 따라 자산이 2배가 되는 시점을 확인하며 장기 계획을 세우는 것을 추천합니다.</p>
+            </div>
+        </section>
         
-<div class="ad-slot">Ads Space (광고 게재 예정 구역)</div>
+        <div class="ad-slot" style="text-align: center; margin: 20px 0; color: #ccc;">Ads Space</div>
     </div>
 
-    <footer style="margin-top: 50px; text-align: center; font-size: 14px; padding-bottom: 30px;">
+    <footer style="margin-top: 50px; text-align: center; font-size: 14px; padding-bottom: 30px; background: #fff;">
         <hr style="border: 0.5px solid #eee; margin-bottom: 20px;">
-        <a href="about.html" style="text-decoration: none; color: #666; margin: 0 10px;">About</a> | 
-        <a href="privacy.html" style="text-decoration: none; color: #666; margin: 0 10px;">Privacy Policy</a> | 
-        <a href="mortgage-2026.html" style="text-decoration: none; color: #666; margin: 0 10px;">2026 금리 전망</a> | 
-        <a href="compound-strategy.html" style="text-decoration: none; color: #666; margin: 0 10px;">복리 투자 전략</a>
+        <nav>
+            <a href="about.html" style="text-decoration: none; color: #666; margin: 0 10px;">About</a> | 
+            <a href="privacy.html" style="text-decoration: none; color: #666; margin: 0 10px;">Privacy Policy</a> | 
+            <a href="mortgage-2026.html" style="text-decoration: none; color: #666; margin: 0 10px;">2026 금리 전망</a> | 
+            <a href="compound-strategy.html" style="text-decoration: none; color: #666; margin: 0 10px;">복리 투자 전략</a>
+        </nav>
         <p style="margin-top: 15px; color: #999;">&copy; 2026 Professional Finance Calc. All rights reserved.</p>
     </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
