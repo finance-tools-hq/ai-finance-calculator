@@ -5,26 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Calculator | 전문 금융 계산기</title>
     <meta name="google-site-verification" content="9sls7Zab3isXfFnJvhogxMnnsjv1REDurrHeGDnl_a4" />
-    <meta name="description" content="정확한 대출 이자 계산 및 복리 자산 예측 기능을 제공합니다. 상환 방식 비교와 미래 자산 그래프를 확인하세요.">
+    <meta name="description" content="정확한 대출 이자 계산 및 복리 자산 예측 기능을 제공합니다.">
     <link rel="stylesheet" href="style.css">
     <style>
         .highlight { color: #5d5dff; font-weight: bold; }
-        .result-text { 
-            margin-top: 15px; 
-            padding: 15px; 
-            background-color: #f8f9ff; 
-            border-radius: 8px; 
-            min-height: 1.5em; 
-            text-align: center;
-        }
-        .chart-container {
-            background: #ffffff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-top: 20px;
-            height: 300px;
-        }
+        .result-text { margin-top: 15px; padding: 15px; background-color: #f8f9ff; border-radius: 8px; min-height: 1.5em; text-align: center; }
+        .chart-container { background: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-top: 20px; height: 300px; }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -35,45 +21,41 @@
         </header>
         
         <section class="calc-section">
-    <h2>Compound Interest Calculator (복리 계산기 PRO)</h2>
-    <div class="input-group">
-        <label>Principal (초기 투자금)</label>
-        <input type="text" id="principal" oninput="formatNumber(this)" placeholder="예: 10,000,000">
-    </div>
-    <div class="input-group">
-        <label>Monthly Deposit (월 적립액)</label>
-        <input type="text" id="monthlyDeposit" oninput="formatNumber(this)" placeholder="예: 500,000">
-    </div>
-    <div class="input-group">
-        <label>Annual Return (수익률 %)</label>
-        <input type="number" id="growthRate" step="0.1" placeholder="예: 7">
-    </div>
-    <div class="input-group">
-        <label>Years (투자 기간/년)</label>
-        <input type="number" id="years" placeholder="예: 10">
-    </div>
-    <div class="input-group">
-        <label>Tax Rate (이자소득세 %)</label>
-        <input type="number" id="taxRate" step="0.1" value="15.4"> </div>
-    
-    <button onclick="calculateCompound()" style="font-weight: bold; background-color: #2c2c54;">자산 성장 시뮬레이션 시작</button>
-    
-    <div id="compoundResult" class="result-text"></div>
+            <h2>Loan & Mortgage Calculator (대출 계산기)</h2>
+            <div class="input-group">
+                <label>Loan Amount (대출 원금)</label>
+                <input type="text" id="loanAmount" oninput="formatNumber(this)" placeholder="예: 100,000,000">
+            </div>
+            <div class="input-group">
+                <label>Repayment Method (상환 방식)</label>
+                <select id="repaymentMethod" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; background-color: white;">
+                    <option value="level">원리금 균등 상환</option>
+                    <option value="principal">원금 균등 상환</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Interest Rate (연 이자율 %)</label>
+                <input type="number" id="interestRate" step="0.1" placeholder="예: 3.5">
+            </div>
+            <div class="input-group">
+                <label>Loan Term (기간/년)</label>
+                <input type="number" id="loanTerm" placeholder="예: 30">
+            </div>
+            <button onclick="calculateLoan()">월 상환액 계산하기</button>
+            <div id="loanResult" class="result-text"></div>
+            <div id="scheduleContainer" style="margin-top: 20px; display: none;">
+                <h4 style="text-align: center;">상환 스케줄 (일부)</h4>
+                <div id="amortizationTable" style="overflow-x: auto;"></div>
+                <div style="text-align: center; padding: 15px; background: #f0f0ff; border-radius: 8px; margin-top: 10px;">
+                    <button onclick="alert('현재 프리미엄 기능을 준비 중입니다!')" style="background: #5d5dff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">전체 일정 확인 및 엑셀 받기</button>
+                </div>
+            </div>
+        </section>
 
-    <div class="chart-container">
-        <canvas id="growthChart"></canvas>
-    </div>
-
-    <div id="compoundTableContainer" style="margin-top: 20px; display: none;">
-        <h4 style="text-align: center;">연도별 자산 변화 기록</h4>
-        <div id="compoundYearlyTable" style="overflow-x: auto;"></div>
-    </div>
-</section>
-        
         <hr>
 
         <section class="calc-section">
-            <h2>Compound Interest Calculator (복리 계산기)</h2>
+            <h2>Compound Interest Calculator (복리 계산기 PRO)</h2>
             <div class="input-group">
                 <label>Principal (초기 투자금)</label>
                 <input type="text" id="principal" oninput="formatNumber(this)" placeholder="예: 10,000,000">
@@ -90,10 +72,16 @@
                 <label>Years (투자 기간/년)</label>
                 <input type="number" id="years" placeholder="예: 10">
             </div>
-            <button onclick="calculateCompound()" style="font-weight: bold;">최종 자산 계산하기</button>
+            <div class="input-group">
+                <label>Tax Rate (이자소득세 %)</label>
+                <input type="number" id="taxRate" step="0.1" value="15.4">
+            </div>
+            <button onclick="calculateCompound()" style="background-color: #2c2c54; font-weight: bold;">자산 성장 시뮬레이션 시작</button>
             <div id="compoundResult" class="result-text"></div>
-            <div class="chart-container">
-                <canvas id="growthChart"></canvas>
+            <div class="chart-container"><canvas id="growthChart"></canvas></div>
+            <div id="compoundTableContainer" style="margin-top: 20px; display: none;">
+                <h4 style="text-align: center;">연도별 자산 변화 기록</h4>
+                <div id="compoundYearlyTable" style="overflow-x: auto;"></div>
             </div>
         </section>
 
@@ -109,58 +97,11 @@
                 <label>목표 기간 (년)</label>
                 <input type="number" id="goalYears" placeholder="예: 20">
             </div>
-            <button onclick="calculateGoal()" style="font-weight: bold;">필요 저축액 계산하기</button>
+            <button onclick="calculateGoal()">필요 저축액 계산하기</button>
             <div id="goalResult" class="result-text"></div>
         </section>
 
-        <section class="finance-guide" style="max-width: 800px; margin: 50px auto; padding: 20px; line-height: 1.8; color: #444;">
-            <h2 style="color: #2c2c54; border-bottom: 2px solid #5d5dff; padding-bottom: 10px;">복리의 마법과 재무 설계의 핵심</h2>
-            <h3 style="margin-top: 30px; color: #333;">1. 왜 지금 당장 자산 관리를 시작해야 하는가?</h3>
-            <p>재무 설계의 핵심은 '시간'입니다. 아인슈타인이 '세계 8대 불가사의'라고 칭송한 복리 효과는 투자 기간이 길어질수록 기하급수적으로 증폭됩니다. 저희 금융 계산기를 통해 확인한 수치는 여러분의 미래 자산을 결정짓는 중요한 지표입니다.</p>
-            <h3 style="margin-top: 30px; color: #333;">2. 인플레이션을 고려한 실질 수익률 계산법</h3>
-            <p>명목 수익률이 5%라 하더라도 물가 상승률이 3%라면 실질 수익률은 2%에 불과합니다. 자산의 구매력을 유지하기 위해서는 항상 인플레이션을 상회하는 투자 전략을 세워야 합니다.</p>
-        </section>
-
-        <article class="info-section" style="max-width: 800px; margin: 0 auto;">
-            <h3>대출 상환 방식 가이드: 원리금 균등 vs 원금 균등</h3>
-            <p>대출 상환 방식에 따라 총 이자 비용이 크게 달라집니다.</p>
-            <div class="comparison-table-wrapper" style="overflow-x: auto; margin-top: 20px;">
-                <table style="width: 100%; border-collapse: collapse; background: white; border: 1px solid #e0e0e0; font-size: 0.95rem;">
-                    <thead>
-                        <tr style="background-color: #f8f9ff; border-bottom: 2px solid #5d5dff;">
-                            <th style="padding: 12px; border: 1px solid #e0e0e0;">구분</th>
-                            <th style="padding: 12px; border: 1px solid #e0e0e0; color: #5d5dff;">원리금 균등</th>
-                            <th style="padding: 12px; border: 1px solid #e0e0e0;">원금 균등</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold;">월 납입액</td><td style="padding: 12px; border: 1px solid #e0e0e0;">매달 일정함</td><td style="padding: 12px; border: 1px solid #e0e0e0;">점차 줄어듦</td></tr>
-                        <tr><td style="padding: 12px; border: 1px solid #e0e0e0; font-weight: bold;">총 이자 부담</td><td style="padding: 12px; border: 1px solid #e0e0e0;">상대적 높음</td><td style="padding: 12px; border: 1px solid #e0e0e0; color: #ff4d4d; font-weight: bold;">가장 낮음</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </article>
-
-        <section class="faq-section" style="max-width: 800px; margin: 40px auto; padding: 20px; background: #fafafa; border-radius: 15px;">
-            <h2 style="text-align: center; color: #2c2c54; margin-bottom: 30px;">자주 묻는 재무 질문 (FAQ)</h2>
-            <div style="margin-bottom: 20px;">
-                <h4 style="color: #5d5dff;">Q. 본 계산기는 얼마나 정확한가요?</h4>
-                <p>A. 표준 재무 공식을 기반으로 하지만 실제 세금이나 금융사별 우대 금리에 따라 실제와는 다소 차이가 있을 수 있습니다.</p>
-            </div>
-        </section>
-    </div>
-
-    <footer style="margin-top: 50px; text-align: center; font-size: 14px; padding-bottom: 30px; background: #fff;">
-        <hr style="border: 0.5px solid #eee; margin-bottom: 20px;">
-        <nav>
-            <a href="about.html" style="text-decoration: none; color: #666; margin: 0 10px;">About</a> | 
-            <a href="privacy.html" style="text-decoration: none; color: #666; margin: 0 10px;">Privacy Policy</a> | 
-            <a href="mortgage-2026.html" style="text-decoration: none; color: #666; margin: 0 10px;">2026 금리 전망</a> | 
-            <a href="compound-strategy.html" style="text-decoration: none; color: #666; margin: 0 10px;">복리 투자 전략</a>
-        </nav>
-        <p style="margin-top: 15px; color: #999;">&copy; 2026 Professional Finance Calc. All rights reserved.</p>
-    </footer>
-
+        </div>
     <script src="script.js"></script>
 </body>
 </html>
