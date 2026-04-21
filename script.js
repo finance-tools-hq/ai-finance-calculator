@@ -120,3 +120,32 @@ function calculateGoal() {
         document.getElementById('goalResult').innerHTML = `매달 <span class="highlight">${Math.round(need).toLocaleString()} 원</span> 저축 필요`;
     } else { alert("정보를 입력해주세요."); }
 }
+
+// 4. 중도상환수수료 계산 로직
+function calculatePrepayFee() {
+    const amount = getRawNumber('prepayAmount'); // 상환액
+    const feeRate = parseFloat(document.getElementById('prepayFeeRate').value) / 100; // 수수료율
+    const totalYears = parseFloat(document.getElementById('totalLoanTerm').value); // 대출기간
+    const remainDays = parseFloat(document.getElementById('remainingDays').value); // 남은일수
+    
+    const totalDays = totalYears * 365; // 전체 일수 계산
+
+    if (amount > 0 && feeRate > 0 && totalYears > 0 && remainDays >= 0) {
+        // 중도상환수수료 산식 (슬라이딩 방식 적용)
+        // 공식: 중도상환금액 * 수수료율 * (남은일수 / 전체일수)
+        const fee = amount * feeRate * (remainDays / totalDays);
+        
+        const formattedFee = Math.round(fee).toLocaleString('ko-KR');
+        const formattedAmount = Math.round(amount).toLocaleString('ko-KR');
+
+        document.getElementById('prepayResult').innerHTML = `
+            ${formattedAmount}원 상환 시 예상 수수료: <br>
+            <span class="highlight" style="font-size: 1.3rem;">${formattedFee} 원</span>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 5px;">
+                (남은 기간 ${remainDays}일 / 전체 기간 ${totalDays}일 기준)
+            </p>
+        `;
+    } else {
+        alert("수수료 정보를 정확히 입력해주세요. 남은 기간이 전체 기간보다 클 수 없습니다.");
+    }
+}
